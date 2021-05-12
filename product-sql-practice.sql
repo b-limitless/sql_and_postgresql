@@ -109,3 +109,29 @@ select price FROM products WHERE department = 'Industrial'
 
 select name, department, price FROM products WHERE price > SOME (
 select price FROM products WHERE department = 'Industrial')
+
+select name, price FROM products WHERE price > (
+select Max(price) FROM products WHERE weight > 20
+)
+
+select name, department FROM products WHERE department NOT IN(
+SELECT department FROM products WHERE price < 100)
+-- select * FROM products;
+
+--- write a query any phone made by samsung and price is greater then it
+select name FROM products WHERE price > ALL(
+select price FROM products WHERE department = 'Toys')
+
+-- Show the name deparment and price of the most expensive product in each department 
+select name, department, price FROM products as p1 WHERE price  = (
+select max(price) FROM products as p2 WHERE p1.department = p2.department)
+
+-- Without using join or group by print the number of order for each product 
+select first_name FROM users
+join(select user_id FROM orders where product_id = 3) as  
+o on o.user_id = users.id;
+
+-- Same query as above 
+select first_name from users join users on orders.user_id = users.id 
+where orders.product_id = 3
+
