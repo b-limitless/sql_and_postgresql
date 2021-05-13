@@ -135,3 +135,24 @@ o on o.user_id = users.id;
 select first_name from users join users on orders.user_id = users.id 
 where orders.product_id = 3
 
+-- Unique department from products 
+select count( DISTINCT department) FROM products
+
+-- select Gretest then 30 
+SELECT name, weight, GREATEST (30, 2 * weight) from products;
+
+-- Least 
+select name, price , LEAST (price * 0.5, 400) from products;
+
+-- case 
+select name, price ,
+CASE
+WHEN price > 600 then 'high'
+ELSE 'cheap' 
+END from products 
+
+-- Interval 
+SELECT ('1 day':: INTERVAL)
+SELECT ('1 D 20 H 30':: INTERVAL)
+-- WITH TIME ZONE 
+select ('Nov 20 1980 1:23 AM EST':: TIMESTAMP WITH TIMEZONE)
