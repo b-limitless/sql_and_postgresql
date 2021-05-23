@@ -50,3 +50,49 @@ select manufacturer, sum(price * units_sold)
 from phones 
 group by manufacturer 
 having sum(price * units_sold) > 2000000
+
+
+CREATE INDEX on users(username);
+DROP INDEX users_username_idx;
+
+EXPLAIN ANALYZE 
+SELECT * FROM users WHERE username = 'Emil30'
+
+-- Find the size of users table in the hard disk 
+SELECT pg_size_pretty(pg_relation_size('users'));
+-- Find for the index username 
+SELECT pg_size_pretty(pg_relation_size('users_username_idx'));
+
+-- There is different type of index exits 
+/*
+    B-Tree => General purpose index 
+    Hash => Speeds up simple equity checks 
+    GisT => Geometry, full text search
+    SP-GisT => Cluster Data, such as date 
+    GIN
+    BRIN
+*/
+-- List indexs from the tables in databse 
+SELECT relname, relkind FROM pg_class WHERE relkind = 'i';
+
+
+-- CREATE INDEX on users(username);
+-- DROP INDEX users_username_idx1;
+
+-- WITH IDEX 0.05
+-- EXPLAIN ANALYZE 
+-- SELECT * FROM users WHERE username = 'Emil30'
+
+--SELECT relname, relkind FROM pg_class WHERE relkind = 'i';
+
+
+--select * FROM bt_metap('users_username_idx');
+--select * FROM bt_page_items('users_username_idx', 4);
+
+-- select oid, datname from pg_database;
+-- 16386
+-- SHOW data_directory;
+--/Users/limitless/Library/Application Support/Postgres/var-13
+
+select * from pg_class WHERE relkind = 'i';
+-- users_usersname_idex relfilenode = "16590"

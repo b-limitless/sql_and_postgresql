@@ -1,0 +1,7 @@
+page read sequentially * seq_page_cost 
++ pages read at random * random_page_cost 
+rows_scanned * cup_tuple_cost 
+index entries scanned * cup_index_tuple_cost
+time function /operator evaluated * cup operator cost 
+
+5 * 1 + 100 * 1/4
