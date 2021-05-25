@@ -1,0 +1,287 @@
+All right, so we ran our first example of recursive common table expression.
+
+Now we're going to take a look at a couple of diagrams and understand what is going on.
+
+The first thing I want you to understand are two pieces of terminology.
+
+So inside of the city itself, you'll notice we've got that union keyword.
+
+As I mentioned, every recursive CTE is going to have a union inside of it, whether or not you think
+
+you need it.
+
+We then have one select immediately above we refer to these select statement above the union.
+
+As the initial or non recursive Wari that we refer to this select statement right here as either the
+
+initial query or the non recursive query, they essentially are referring to the same thing.
+
+Then immediately after the union, we've got another select, we refer to this statement right here
+
+as the recursive Wari.
+
+So there's our two pieces of terminology.
+
+What's above the union is the initial or non recursive.
+
+What's below the union is the recursive.
+
+OK, so now let's go take a look at the diagram and start to break down what's going on here step by
+
+step.
+
+So in this diagram, we've got the query on the top left hand side, we have the steps that are actually
+
+executed on the bottom left, and then the results of the query are kind of what's occurring behind
+
+the scenes.
+
+We're going to diagram out step by step on the top right hand side.
+
+OK, so let's get to it.
+
+The first thing that occurs when we run the Squarey progress is going to define two tables behind the
+
+scenes.
+
+So you're not really going to see these immediately or really see them in any kind of output.
+
+We refer to these two temporary tables as a results table and the working table.
+
+So we're going to label those right now, so I'm going to say that this is my results table.
+
+And this is my working table.
+
+Both these tables are going to be given some number of columns, the columns that they get assigned
+
+or whatever you have inside of that set of parentheses right there that we have with recursive, then
+
+some name and then a set of parentheses.
+
+In this case, we have just one word inside that those parentheses eval, which again is short for value,
+
+that means that both of our tables are going to have one single column labeled Val.
+
+If we had additional words inside of here, such as maybe created at or who knows what else count or
+
+something like that, that means that we would have additional columns inside of both these tables.
+
+So in addition to the vault column, we would also have created that account for both them.
+
+But in this case, we've got just Vall by itself.
+
+The tables have just the one column called Vall.
+
+All right, so that is step number one, we have defined the results and the working tables.
+
+Now we go on to step number two in step number two, we run the initial or non recursive statement.
+
+Remember, that is everything above or really just the select statement directly above the union keyword.
+
+So we're going to run that and then we're going to put the results from that statement into both the
+
+results table and the working table so we can imagine that we're going to execute select three as well
+
+by itself.
+
+If you're not sure what that would produce, what we can always just do a quick copy and run that single
+
+line by itself just to see what it would give us.
+
+So when you do a select three as well, you get back just one row one column and it has a column name,
+
+a vowel, that's it.
+
+So we take that result and we put it into both the results table and working table, so I'm going to
+
+do that right now.
+
+I'm going to put in three right there and three right there.
+
+OK, so that's step number two, all done.
+
+Now we're going to move on to step number three, and this is where things start to get a little bit
+
+trickier and a little bit more interesting.
+
+So in step number three, we're going to now run our recursive statement and here's the kind of little
+
+trick to understanding what's going on here.
+
+We're going to replace the table name of Countdown in there with a reference to the working table instead.
+
+You'll notice that inside of our recursive statement we have from Countdown.
+
+So I want you to imagine that instead of seeing from Countdown right there, we are instead kind of
+
+saying from working table.
+
+It's a working table being this thing right here, that is the key to really understanding what is going
+
+on.
+
+So now we can imagine what would happen if we ran this query right here.
+
+We are selecting all the different rows from the working table where Val is greater than one.
+
+So in that case, it gives us this one row right here.
+
+They're going to pull that down as the intermediate ResultSet, that is the one row that we're getting
+
+back from the from working table where Val is greater than one.
+
+Then from that one row, we are saying take the value inside of the ball column and subtract one from
+
+it.
+
+So in that case, we would take the three that's there, subtract one from it, and that gives us two.
+
+So that is the output just to buy itself is the output of running the recursive warit.
+
+That's step number three.
+
+So we're now going to go down to the next step.
+
+In this case or so, now we're going to ask ourselves if the recursive statement returned any rose and
+
+it definitely did, it gave us that right there, then we're going to take that row and append it to
+
+the results table.
+
+I'm going to make a copy of that and append it to the results table like so.
+
+And then going to throw away this is not really in the step right here, but I'm going to throw away
+
+everything inside of the working table as it stands right now.
+
+And I'm going to replace it with the result of that recursive query that we just calculated.
+
+So essentially, we run that thing right there, we then copy the results of it into the results table
+
+and then we replace everything that's inside the working table with it as well.
+
+Because a recursive statement just returned, some rows were then going to run a recursive statement
+
+again.
+
+So in this case, we return some rows.
+
+So we're going to go back up here to step number three.
+
+So let's imagine what happens there again, that we're going to run the recursive statement, so pretty
+
+much this exact thing right here once again.
+
+So we're saying take all the rows from working table where the value is greater than one that would
+
+give us this row right here.
+
+Then out of all the rows we just found, we want to take the values inside of the Vall column and subtract
+
+one from them.
+
+In this case, we've got just the one row.
+
+We're going to take the two, subtract one, the left with one.
+
+Now we're going to go down to the next step once again, we're going to upend the results of that query.
+
+Over into our results table, we're going to throw away everything inside the working table.
+
+And put the stuff from the recursive query inside the working table as well.
+
+Now, because we just returned some rose when we ran that recursive statement, we're going to recurse
+
+again the once again for a third time now, we will do a select from where we're going to take all the
+
+rows from the working table.
+
+Where Val is greater than one?
+
+Well, this is not greater than one, so we would throw that row out.
+
+Now, in this case, when we executed this query right here, we did not get any rows back out of it.
+
+No rose whatsoever.
+
+So in this case, our recursive statement returned, no rose.
+
+So we are going to immediately stop recursion.
+
+So we stop recursion.
+
+Then our results table will be taken.
+
+We're going to rename the results table to whatever we named our recursive, as in this case we called
+
+it Countdown.
+
+So we're going to rename the results table to Countdown.
+
+And now we're going to make this resulting table right here accessible to the rest of our query, where
+
+essentially the outer query, so in this case, we're doing a select star from Countdown.
+
+That means take everything out of Countdown and just print it out so we should see if we printed out
+
+the results of this table right here.
+
+We should see one column called Val, and it should have values of three, two and one.
+
+And so if I rerun this recursive one more time, sure enough, we got Bell with values three, two and
+
+one, that's it.
+
+That's how a recursive query works.
+
+Now, once again, this is definitely the most complicated topic in the world of SQL, in my opinion.
+
+Maybe it's not really, but I think it is.
+
+So if that entire process is confusing, don't sweat it whatsoever.
+
+Again, all I really want from you here is to just say, OK, I kind of have a vague idea of what's
+
+going on with the recursive CTE and be able to say in the future where you might want to kind of research
+
+this and possibly make use of it.
+
+So to summarize very quickly, just a real quick recap here with the recursive CTE, we've got the initial
+
+query and the recursive query.
+
+When we run the recursive CTE, we first begin by building up the working table and the results table.
+
+Both these tables are going to have the exact same columns that's listed out inside of these parentheses.
+
+We're then going to run the initial query.
+
+We're going to take the results of that and put into both the results table and the working table.
+
+We're then going to start to run the recursive query again and again and again every time we run it,
+
+we're going to take the results and append them onto the end of the results.
+
+Table will then throw away everything inside the working table and put the result of the recursive query.
+
+And there as well, as soon as the recursive query does not return any rows, we stop recursion and
+
+then we make this results table accessible to the rest of our query.
+
+That's it.
+
+That is a summary.
+
+All right, so obviously doing a little countdown operation here, not really useful, you might be
+
+thinking where would we ever actually use this, especially if I'm saying, oh, I want you to know
+
+where to use this.
+
+Well, you need an example of that, of course.
+
+So let's take a pause here.
+
+And the next video, we're going to take a look at a definitely more complicated example that's going
+
+to give you a better idea of when you would use a recursive.

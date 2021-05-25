@@ -96,3 +96,32 @@ SELECT relname, relkind FROM pg_class WHERE relkind = 'i';
 
 select * from pg_class WHERE relkind = 'i';
 -- users_usersname_idex relfilenode = "16590"
+
+--
+SELECT username, tags.created_at
+FROM users 
+JOIN (
+	SELECT user_id, created_at from caption_tags
+	UNION ALL
+	SELECT user_id, created_at from photo_tags
+) as tags ON tags.user_id = users.id
+WHERE tags.created_at < '2010-01-07'
+
+-- Below query is options for above query
+SELECT username, tags.created_at
+FROM users 
+JOIN (
+	SELECT user_id, created_at from caption_tags
+	UNION ALL
+	SELECT user_id, created_at from photo_tags
+) as tags ON tags.user_id = users.id
+WHERE tags.created_at < '2010-01-07'
+
+-- Important Notes on Recursive CTE's
+WITH RECURSIVE countdown(val) as (
+SELECT 3 AS val -- initial, Non recursive query 
+UNION 
+SELECT val - 1 FROM countdown WHERE val > 1 -- Recursive query 
+)
+SELECT * 
+FROM countdown;
